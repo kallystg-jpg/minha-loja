@@ -1,66 +1,139 @@
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Minha Loja de Roupas</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
-body{font-family:Arial;margin:0;background:#f5f5f5}
-header{background:black;color:white;padding:20px;text-align:center}
-nav{background:#222;padding:10px;text-align:center}
-nav a{color:white;margin:0 15px;text-decoration:none}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins',sans-serif;background:#f6f6f6;color:#222}
+
+header{
+background:#000;
+color:#fff;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center
+}
+
+header h1{font-size:22px}
+
+nav a{
+color:#fff;
+margin-left:20px;
+text-decoration:none;
+font-size:14px
+}
+
+.cart-icon{
+position:relative;
+font-size:18px
+}
+
+.cart-count{
+position:absolute;
+top:-8px;
+right:-10px;
+background:red;
+color:white;
+border-radius:50%;
+font-size:12px;
+padding:2px 6px
+}
+
+.hero{
+background:url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200');
+background-size:cover;
+background-position:center;
+height:320px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#fff;
+font-size:34px;
+font-weight:600;
+text-shadow:0 3px 10px rgba(0,0,0,.5)
+}
+
 .container{padding:40px}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
-.card{background:white;padding:15px;border-radius:10px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
-.card img{width:100%;border-radius:10px}
-button{background:black;color:white;border:none;padding:10px 20px;border-radius:5px;cursor:pointer}
-footer{background:#111;color:white;text-align:center;padding:20px;margin-top:40px}
-</style>
-</head>
-<body>
 
-<header>
-<h1>Minha Loja de Roupas</h1>
-<p>Estilo moderno para todos</p>
-</header>
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px
+}
 
-<nav>
-<a href="#">Início</a>
-<a href="#">Produtos</a>
-<a href="#">Contato</a>
-</nav>
+.card{
+background:#fff;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 8px 18px rgba(0,0,0,0.08);
+transition:.25s
+}
 
-<div class="container">
-<h2>Produtos</h2>
+.card:hover{transform:translateY(-6px)}
 
-<div class="products">
+.card img{width:100%;height:220px;object-fit:cover}
 
-<div class="card">
-<img src="https://via.placeholder.com/300x300" alt="Camiseta">
-<h3>Camiseta Street</h3>
-<p>R$ 79,90</p>
-<button>Comprar</button>
-</div>
+.card-content{padding:15px}
 
-<div class="card">
-<img src="https://via.placeholder.com/300x300" alt="Moletom">
-<h3>Moletom Urban</h3>
-<p>R$ 149,90</p>
-<button>Comprar</button>
-</div>
+.price{font-weight:600;margin:10px 0;font-size:18px}
 
-<div class="card">
-<img src="https://via.placeholder.com/300x300" alt="Calça">
-<h3>Calça Jeans</h3>
-<p>R$ 129,90</p>
-<button>Comprar</button>
-</div>
+button{
+border:none;
+padding:10px 15px;
+border-radius:6px;
+cursor:pointer;
+margin-right:5px;
+font-weight:500
+}
 
-</div>
-</div>
+.buy{background:#25D366;color:white}
+.cart{background:#000;color:white}
 
-<footer>
-<p>© 2026 Minha Loja de Roupas</p>
-</footer>
+.cart-panel{
+position:fixed;
+right:0;
+top:0;
+width:320px;
+height:100%;
+background:white;
+box-shadow:-4px 0 20px rgba(0,0,0,.2);
+padding:20px;
+overflow:auto
+}
 
-</body>
-</html>
+.cart-item{
+border-bottom:1px solid #eee;
+padding:10px 0;
+font-size:14px
+}
+
+.cart-total{
+font-weight:600;
+margin-top:20px;
+font-size:18px
+}
+
+.buy-all{
+margin-top:15px;
+width:100%;
+background:#25D366;
+color:white;
+padding:12px
+}
+
+.whatsapp-float{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+font-size:26px;
+padding:15px 18px;
+border-radius:50%;
+box-shadow:0 8px 20px rgba(0,0,0,
