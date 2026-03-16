@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minha Loja de Roupas</title>
+<title>Kallystg de Roupas</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -14,13 +14,43 @@ body{font-family:'Poppins',sans-serif;background:#f6f6f6;color:#222}
 header{
 background:#000;
 color:#fff;
-padding:20px;
+padding:18px 30px;
 display:flex;
 justify-content:space-between;
 align-items:center
 }
 
-header h1{font-size:22px}
+.header-left{
+display:flex;
+align-items:center;
+gap:20px
+}
+
+.logo{
+font-weight:600;
+font-size:22px
+}
+
+.cart-button{
+background:#111;
+color:#fff;
+border-radius:30px;
+padding:6px 14px;
+font-size:14px;
+cursor:pointer;
+position:relative
+}
+
+.cart-count{
+position:absolute;
+top:-6px;
+right:-8px;
+background:red;
+color:white;
+border-radius:50%;
+font-size:11px;
+padding:2px 6px
+}
 
 nav a{
 color:#fff;
@@ -29,37 +59,30 @@ text-decoration:none;
 font-size:14px
 }
 
-.cart-icon{
-position:relative;
-font-size:18px
-}
-
-.cart-count{
-position:absolute;
-top:-8px;
-right:-10px;
-background:red;
-color:white;
-border-radius:50%;
-font-size:12px;
-padding:2px 6px
-}
-
 .hero{
-background:url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200');
+background:url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1400');
 background-size:cover;
 background-position:center;
-height:320px;
+height:360px;
 display:flex;
+flex-direction:column;
 align-items:center;
 justify-content:center;
 color:#fff;
-font-size:34px;
-font-weight:600;
-text-shadow:0 3px 10px rgba(0,0,0,.5)
+text-align:center;
+text-shadow:0 4px 12px rgba(0,0,0,.6)
 }
 
-.container{padding:40px}
+.hero h2{font-size:36px;margin-bottom:10px}
+.hero p{font-size:16px}
+
+.section{padding:50px 40px}
+
+.section-title{
+font-size:24px;
+margin-bottom:30px;
+font-weight:600
+}
 
 .products{
 display:grid;
@@ -71,7 +94,7 @@ gap:25px
 background:#fff;
 border-radius:12px;
 overflow:hidden;
-box-shadow:0 8px 18px rgba(0,0,0,0.08);
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 transition:.25s
 }
 
@@ -85,46 +108,61 @@ transition:.25s
 
 button{
 border:none;
-padding:10px 15px;
+padding:10px 14px;
 border-radius:6px;
 cursor:pointer;
-margin-right:5px;
+margin-right:6px;
 font-weight:500
 }
 
-.buy{background:#25D366;color:white}
-.cart{background:#000;color:white}
+.cart{background:#000;color:#fff}
+.buy{background:#25D366;color:#fff}
 
 .cart-panel{
 position:fixed;
-right:0;
-top:0;
+right:20px;
+bottom:20px;
 width:320px;
-height:100%;
-background:white;
-box-shadow:-4px 0 20px rgba(0,0,0,.2);
+max-height:420px;
+background:#fff;
+box-shadow:0 10px 30px rgba(0,0,0,.25);
+border-radius:12px;
 padding:20px;
-overflow:auto
+overflow:auto;
+display:none
+}
+
+.cart-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px
+}
+
+.minimize{
+cursor:pointer;
+font-size:14px;
+color:#777
 }
 
 .cart-item{
 border-bottom:1px solid #eee;
-padding:10px 0;
+padding:8px 0;
 font-size:14px
 }
 
 .cart-total{
 font-weight:600;
-margin-top:20px;
-font-size:18px
+margin-top:15px;
+font-size:16px
 }
 
 .buy-all{
-margin-top:15px;
+margin-top:10px;
 width:100%;
 background:#25D366;
-color:white;
-padding:12px
+color:#fff;
+padding:10px
 }
 
 .whatsapp-float{
@@ -132,41 +170,57 @@ position:fixed;
 bottom:20px;
 right:20px;
 background:#25D366;
-color:white;
+color:#fff;
 font-size:26px;
 padding:15px 18px;
 border-radius:50%;
-box-shadow:0 8px 20px rgba(0,0,0,0.2);
+box-shadow:0 8px 20px rgba(0,0,0,.25);
 text-decoration:none
 }
 
 footer{
 margin-top:40px;
-padding:30px;
-text-align:center;
+padding:40px;
 background:#111;
-color:white
+color:#fff;
+text-align:center
 }
+
+@media(max-width:700px){
+.hero h2{font-size:26px}
+.section{padding:40px 20px}
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>Minha Loja</h1>
+
+<div class="header-left">
+<div class="logo">Kallystg</div>
+
+<div class="cart-button" onclick="toggleCart()">
+🛒 Carrinho
+<span class="cart-count" id="cart-count">0</span>
+</div>
+</div>
+
 <nav>
 <a href="#">Início</a>
 <a href="#produtos">Produtos</a>
-<span class="cart-icon">🛒 <span class="cart-count" id="cart-count">0</span></span>
 </nav>
+
 </header>
 
 <div class="hero">
-Nova coleção
+<h2>Nova coleção 2026</h2>
+<p>Estilo moderno para todos</p>
 </div>
 
-<div class="container" id="produtos">
-<h2 style="margin-bottom:25px">Produtos</h2>
+<section class="section" id="produtos">
+<h3 class="section-title">Produtos</h3>
 
 <div class="products">
 
@@ -201,28 +255,52 @@ Nova coleção
 </div>
 
 </div>
+</section>
+
+<div class="cart-panel" id="cart-panel">
+
+<div class="cart-header">
+<h3>Carrinho</h3>
+<span class="minimize" onclick="toggleCart()">Fechar</span>
 </div>
 
-<div class="cart-panel">
-<h3>Carrinho</h3>
 <div id="cart-items"></div>
 <div class="cart-total" id="cart-total">Total: R$0</div>
 <button class="buy-all" onclick="buyAll()">Comprar tudo no WhatsApp</button>
+
 </div>
 
 <a class="whatsapp-float" href="https://wa.me/555191345783" target="_blank">💬</a>
 
 <footer>
-<p>© 2026 Minha Loja de Roupas</p>
+<p>© 2026 Kallystg de Roupas</p>
 </footer>
 
 <script>
 
 let cart=[]
 
+function toggleCart(){
+
+const panel=document.getElementById('cart-panel')
+
+if(panel.style.display==='block'){
+panel.style.display='none'
+}else{
+panel.style.display='block'
+}
+
+}
+
 function addToCart(name,price){
+
 cart.push({name,price})
+
 renderCart()
+
+const panel=document.getElementById('cart-panel')
+panel.style.display='block'
+
 }
 
 function renderCart(){
@@ -233,11 +311,15 @@ items.innerHTML=''
 let total=0
 
 cart.forEach(item=>{
+
 items.innerHTML+=`<div class="cart-item">${item.name} - R$${item.price}</div>`
+
 total+=item.price
+
 })
 
 document.getElementById('cart-total').innerText='Total: R$'+total
+
 document.getElementById('cart-count').innerText=cart.length
 
 }
@@ -245,7 +327,6 @@ document.getElementById('cart-count').innerText=cart.length
 function buyWhats(product){
 
 const phone='555191345783'
-
 const text=`Olá quero comprar: ${product}`
 
 window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`,'_blank')
