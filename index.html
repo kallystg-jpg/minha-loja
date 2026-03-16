@@ -3,41 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kallystg de Roupas</title>
+<title>Kallys Store</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Poppins',sans-serif;background:#f6f6f6;color:#222}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#f5f5f5;
+color:#222;
+}
+
+/* HEADER */
 
 header{
 background:#000;
 color:#fff;
-padding:18px 30px;
 display:flex;
 justify-content:space-between;
-align-items:center
+align-items:center;
+padding:18px 30px;
 }
 
 .header-left{
 display:flex;
 align-items:center;
-gap:20px
+gap:25px;
 }
 
 .logo img{
-height:40px
+height:40px;
 }
+
+/* MENU */
+
+nav{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-size:14px;
+}
+
+/* DROPDOWN */
+
+.dropdown{
+position:relative;
+}
+
+.dropdown-menu{
+display:none;
+position:absolute;
+background:#000;
+top:25px;
+border-radius:6px;
+min-width:150px;
+}
+
+.dropdown-menu a{
+display:block;
+padding:10px 15px;
+}
+
+.dropdown:hover .dropdown-menu{
+display:block;
+}
+
+/* CARRINHO */
 
 .cart-button{
 background:#111;
-color:#fff;
-border-radius:30px;
 padding:6px 14px;
-font-size:14px;
+border-radius:30px;
 cursor:pointer;
-position:relative
+position:relative;
 }
 
 .cart-count{
@@ -48,146 +94,133 @@ background:red;
 color:white;
 border-radius:50%;
 font-size:11px;
-padding:2px 6px
+padding:2px 6px;
 }
 
-nav a{
-color:#fff;
-margin-left:20px;
-text-decoration:none;
-font-size:14px
-}
+/* HERO */
 
 .hero{
 background:url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1400');
 background-size:cover;
 background-position:center;
-height:360px;
+height:350px;
 display:flex;
-flex-direction:column;
 align-items:center;
 justify-content:center;
-color:#fff;
-text-align:center;
-text-shadow:0 4px 12px rgba(0,0,0,.6)
+flex-direction:column;
+color:white;
+text-shadow:0 4px 10px rgba(0,0,0,.6);
 }
 
-.hero h2{font-size:36px;margin-bottom:10px}
-.hero p{font-size:16px}
+.hero h2{
+font-size:36px;
+}
 
-.section{padding:50px 40px}
+/* PRODUTOS */
+
+.section{
+padding:50px 40px;
+}
 
 .section-title{
 font-size:24px;
 margin-bottom:30px;
-font-weight:600
 }
 
 .products{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:25px
+gap:25px;
 }
 
 .card{
-background:#fff;
-border-radius:12px;
+background:white;
+border-radius:10px;
 overflow:hidden;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-transition:.25s
+box-shadow:0 10px 20px rgba(0,0,0,.08);
+transition:.25s;
 }
 
-.card:hover{transform:translateY(-6px)}
+.card:hover{
+transform:translateY(-6px);
+}
 
-.card img{width:100%;height:220px;object-fit:cover}
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
 
-.card-content{padding:15px}
+.card-content{
+padding:15px;
+}
 
-.price{font-weight:600;margin:10px 0;font-size:18px}
+.price{
+font-weight:600;
+margin:10px 0;
+}
 
 button{
 border:none;
 padding:10px 14px;
 border-radius:6px;
 cursor:pointer;
-margin-right:6px;
-font-weight:500
 }
 
-.cart{background:#000;color:#fff}
-.buy{background:#25D366;color:#fff}
+.cart{
+background:black;
+color:white;
+}
+
+.buy{
+background:#25D366;
+color:white;
+margin-left:5px;
+}
+
+/* CARRINHO LATERAL */
 
 .cart-panel{
 position:fixed;
 right:20px;
 bottom:20px;
+background:white;
 width:320px;
 max-height:420px;
-background:#fff;
-box-shadow:0 10px 30px rgba(0,0,0,.25);
-border-radius:12px;
-padding:20px;
 overflow:auto;
-display:none
-}
-
-.cart-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:10px
-}
-
-.minimize{
-cursor:pointer;
-font-size:14px;
-color:#777
+border-radius:10px;
+padding:20px;
+display:none;
+box-shadow:0 10px 30px rgba(0,0,0,.25);
 }
 
 .cart-item{
 border-bottom:1px solid #eee;
 padding:8px 0;
-font-size:14px
 }
 
-.cart-total{
-font-weight:600;
-margin-top:15px;
-font-size:16px
-}
+/* WHATSAPP */
 
-.buy-all{
-margin-top:10px;
-width:100%;
-background:#25D366;
-color:#fff;
-padding:10px
-}
-
-.whatsapp-float{
+.whatsapp{
 position:fixed;
-bottom:20px;
 right:20px;
+bottom:20px;
 background:#25D366;
-color:#fff;
-font-size:26px;
+color:white;
 padding:15px 18px;
 border-radius:50%;
-box-shadow:0 8px 20px rgba(0,0,0,.25);
-text-decoration:none
+font-size:24px;
+text-decoration:none;
 }
+
+/* FOOTER */
 
 footer{
-margin-top:40px;
-padding:40px;
 background:#111;
-color:#fff;
-text-align:center
-}
-
-@media(max-width:700px){
-.hero h2{font-size:26px}
-.section{padding:40px 20px}
+color:white;
+padding:40px;
+text-align:center;
+margin-top:40px;
 }
 
 </style>
@@ -204,79 +237,86 @@ text-align:center
 </div>
 
 <div class="cart-button" onclick="toggleCart()">
-🛒 Carrinho
+🛒
 <span class="cart-count" id="cart-count">0</span>
 </div>
 
 </div>
 
 <nav>
+
 <a href="#">Início</a>
-<a href="#produtos">Produtos</a>
+
+<div class="dropdown">
+<a href="#">Produtos ▾</a>
+
+<div class="dropdown-menu">
+<a href="#masculino">Masculino</a>
+<a href="#feminino">Feminino</a>
+<a href="#infantil">Infantil</a>
+<a href="#geek">Geek</a>
+<a href="#lgbt">LGBT+</a>
+</div>
+
+</div>
+
 </nav>
 
 </header>
 
 <div class="hero">
-<h2>Nova coleção 2026</h2>
-<p>Estilo moderno para todos</p>
+<h2>Nova coleção Kallys</h2>
+<p>Streetwear moderno</p>
 </div>
 
 <section class="section" id="produtos">
+
 <h3 class="section-title">Produtos</h3>
 
 <div class="products">
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=600">
+<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab">
 <div class="card-content">
 <h3>Camiseta Street</h3>
 <div class="price">R$79</div>
-<button class="cart" onclick="addToCart('Camiseta Street',79)">Adicionar</button>
+<button class="cart" onclick="addToCart('Camiseta Street',79)">Carrinho</button>
 <button class="buy" onclick="buyWhats('Camiseta Street')">WhatsApp</button>
 </div>
 </div>
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=600">
+<img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c">
 <div class="card-content">
 <h3>Moletom Urban</h3>
 <div class="price">R$149</div>
-<button class="cart" onclick="addToCart('Moletom Urban',149)">Adicionar</button>
+<button class="cart" onclick="addToCart('Moletom Urban',149)">Carrinho</button>
 <button class="buy" onclick="buyWhats('Moletom Urban')">WhatsApp</button>
 </div>
 </div>
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600">
-<div class="card-content">
-<h3>Calça Jeans</h3>
-<div class="price">R$129</div>
-<button class="cart" onclick="addToCart('Calça Jeans',129)">Adicionar</button>
-<button class="buy" onclick="buyWhats('Calça Jeans')">WhatsApp</button>
-</div>
 </div>
 
-</div>
 </section>
 
 <div class="cart-panel" id="cart-panel">
 
-<div class="cart-header">
 <h3>Carrinho</h3>
-<span class="minimize" onclick="toggleCart()">Fechar</span>
-</div>
 
 <div id="cart-items"></div>
-<div class="cart-total" id="cart-total">Total: R$0</div>
-<button class="buy-all" onclick="buyAll()">Comprar tudo no WhatsApp</button>
+
+<p id="cart-total">Total: R$0</p>
+
+<button onclick="buyAll()" class="buy">Comprar tudo</button>
 
 </div>
 
-<a class="whatsapp-float" href="https://wa.me/555191345783" target="_blank">💬</a>
+<a class="whatsapp" href="https://wa.me/555191345783">💬</a>
 
 <footer>
-<p>© 2026 Kallystg de Roupas</p>
+
+<p>© 2026 Kallys Store</p>
+
 </footer>
 
 <script>
@@ -285,13 +325,9 @@ let cart=[]
 
 function toggleCart(){
 
-const panel=document.getElementById('cart-panel')
+let panel=document.getElementById('cart-panel')
 
-if(panel.style.display==='block'){
-panel.style.display='none'
-}else{
-panel.style.display='block'
-}
+panel.style.display=panel.style.display==='block'?'none':'block'
 
 }
 
@@ -301,34 +337,26 @@ cart.push({name,price})
 
 renderCart()
 
-const panel=document.getElementById('cart-panel')
-panel.style.display='block'
-
-}
-
-function removeItem(index){
-
-cart.splice(index,1)
-renderCart()
-
 }
 
 function renderCart(){
 
-const items=document.getElementById('cart-items')
+let items=document.getElementById('cart-items')
+
 items.innerHTML=''
 
 let total=0
 
 cart.forEach((item,index)=>{
 
-items.innerHTML+=`<div class="cart-item">${item.name} - R$${item.price} <button onclick="removeItem(${index})" style="margin-left:10px;background:#e74c3c;color:white;padding:4px 8px;border-radius:4px">Remover</button></div>`
+items.innerHTML+=`<div class="cart-item">${item.name} - R$${item.price}</div>`
 
 total+=item.price
 
 })
 
-document.getElementById('cart-total').innerText='Total: R$'+total
+document.getElementById('cart-total').innerText="Total: R$"+total
+
 document.getElementById('cart-count').innerText=cart.length
 
 }
@@ -336,9 +364,10 @@ document.getElementById('cart-count').innerText=cart.length
 function buyWhats(product){
 
 const phone='555191345783'
-const text=`Olá quero comprar: ${product}`
 
-window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`,'_blank')
+const text=`Olá quero comprar ${product}`
+
+window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`)
 
 }
 
@@ -346,15 +375,12 @@ function buyAll(){
 
 const phone='555191345783'
 
-if(cart.length===0){
-alert('Seu carrinho está vazio')
-return
-}
-
-let message='Olá quero comprar:%0A'
+let message="Olá quero comprar:%0A"
 
 cart.forEach(item=>{
+
 message+=`- ${item.name} R$${item.price}%0A`
+
 })
 
 window.open(`https://wa.me/${phone}?text=${message}`)
