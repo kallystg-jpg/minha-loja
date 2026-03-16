@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Minha Loja de Roupas</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -136,4 +136,142 @@ color:white;
 font-size:26px;
 padding:15px 18px;
 border-radius:50%;
-box-shadow:0 8px 20px rgba(0,0,0,
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
+text-decoration:none
+}
+
+footer{
+margin-top:40px;
+padding:30px;
+text-align:center;
+background:#111;
+color:white
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Minha Loja</h1>
+<nav>
+<a href="#">Início</a>
+<a href="#produtos">Produtos</a>
+<span class="cart-icon">🛒 <span class="cart-count" id="cart-count">0</span></span>
+</nav>
+</header>
+
+<div class="hero">
+Nova coleção
+</div>
+
+<div class="container" id="produtos">
+<h2 style="margin-bottom:25px">Produtos</h2>
+
+<div class="products">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=600">
+<div class="card-content">
+<h3>Camiseta Street</h3>
+<div class="price">R$79</div>
+<button class="cart" onclick="addToCart('Camiseta Street',79)">Adicionar</button>
+<button class="buy" onclick="buyWhats('Camiseta Street')">WhatsApp</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=600">
+<div class="card-content">
+<h3>Moletom Urban</h3>
+<div class="price">R$149</div>
+<button class="cart" onclick="addToCart('Moletom Urban',149)">Adicionar</button>
+<button class="buy" onclick="buyWhats('Moletom Urban')">WhatsApp</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600">
+<div class="card-content">
+<h3>Calça Jeans</h3>
+<div class="price">R$129</div>
+<button class="cart" onclick="addToCart('Calça Jeans',129)">Adicionar</button>
+<button class="buy" onclick="buyWhats('Calça Jeans')">WhatsApp</button>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="cart-panel">
+<h3>Carrinho</h3>
+<div id="cart-items"></div>
+<div class="cart-total" id="cart-total">Total: R$0</div>
+<button class="buy-all" onclick="buyAll()">Comprar tudo no WhatsApp</button>
+</div>
+
+<a class="whatsapp-float" href="https://wa.me/555191345783" target="_blank">💬</a>
+
+<footer>
+<p>© 2026 Minha Loja de Roupas</p>
+</footer>
+
+<script>
+
+let cart=[]
+
+function addToCart(name,price){
+cart.push({name,price})
+renderCart()
+}
+
+function renderCart(){
+
+const items=document.getElementById('cart-items')
+items.innerHTML=''
+
+let total=0
+
+cart.forEach(item=>{
+items.innerHTML+=`<div class="cart-item">${item.name} - R$${item.price}</div>`
+total+=item.price
+})
+
+document.getElementById('cart-total').innerText='Total: R$'+total
+document.getElementById('cart-count').innerText=cart.length
+
+}
+
+function buyWhats(product){
+
+const phone='555191345783'
+
+const text=`Olá quero comprar: ${product}`
+
+window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`,'_blank')
+
+}
+
+function buyAll(){
+
+const phone='555191345783'
+
+if(cart.length===0){
+alert('Seu carrinho está vazio')
+return
+}
+
+let message='Olá quero comprar:%0A'
+
+cart.forEach(item=>{
+message+=`- ${item.name} R$${item.price}%0A`
+})
+
+window.open(`https://wa.me/${phone}?text=${message}`)
+
+}
+
+</script>
+
+</body>
+</html>
