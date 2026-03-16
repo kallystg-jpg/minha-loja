@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kallystg de Roupa</title>
+<title>Kallystg de Roupas</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -26,9 +26,8 @@ align-items:center;
 gap:20px
 }
 
-.logo{
-font-weight:600;
-font-size:22px
+.logo img{
+height:40px
 }
 
 .cart-button{
@@ -199,12 +198,16 @@ text-align:center
 <header>
 
 <div class="header-left">
-<div class="logo">Kallystg</div>
+
+<div class="logo">
+<img src="logo-kallys.png">
+</div>
 
 <div class="cart-button" onclick="toggleCart()">
 🛒 Carrinho
 <span class="cart-count" id="cart-count">0</span>
 </div>
+
 </div>
 
 <nav>
@@ -326,7 +329,6 @@ total+=item.price
 })
 
 document.getElementById('cart-total').innerText='Total: R$'+total
-
 document.getElementById('cart-count').innerText=cart.length
 
 }
