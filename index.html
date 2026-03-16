@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Kallys Store</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -30,15 +27,14 @@ align-items:center;
 padding:18px 30px;
 }
 
-.logo{
-font-size:22px;
-font-weight:600;
+.logo img{
+height:40px;
 }
 
 nav{
 display:flex;
-gap:15px;
 align-items:center;
+gap:15px;
 }
 
 nav a{
@@ -47,13 +43,7 @@ text-decoration:none;
 font-size:14px;
 }
 
-.search{
-padding:6px;
-border-radius:5px;
-border:none;
-}
-
-/* CATEGORIAS */
+/* MENU CATEGORIA */
 
 .dropdown{
 position:relative;
@@ -76,6 +66,14 @@ padding:10px;
 display:block;
 }
 
+/* SEARCH */
+
+.search{
+padding:6px;
+border-radius:5px;
+border:none;
+}
+
 /* HERO */
 
 .hero{
@@ -88,6 +86,7 @@ flex-direction:column;
 align-items:center;
 justify-content:center;
 color:white;
+text-shadow:0 4px 10px rgba(0,0,0,.6);
 }
 
 /* PRODUTOS */
@@ -124,15 +123,26 @@ font-weight:600;
 margin:10px 0;
 }
 
-.rating{
-color:gold;
+.size-select{
+width:100%;
+padding:5px;
+}
+
+/* CORES */
+
+.color{
+width:16px;
+height:16px;
+border-radius:50%;
+display:inline-block;
+margin-right:5px;
 }
 
 /* BOTÕES */
 
 button{
 border:none;
-padding:8px 12px;
+padding:10px 14px;
 border-radius:6px;
 cursor:pointer;
 }
@@ -145,6 +155,12 @@ color:white;
 .buy{
 background:#25D366;
 color:white;
+}
+
+/* RATING */
+
+.rating{
+color:gold;
 }
 
 /* CARRINHO */
@@ -168,32 +184,18 @@ border-bottom:1px solid #eee;
 padding:8px 0;
 }
 
-/* LOGIN MODAL */
+/* ADMIN */
 
-.loginModal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.7);
-align-items:center;
-justify-content:center;
-}
-
-.loginBox{
+.admin{
 background:white;
-padding:30px;
-border-radius:10px;
-width:300px;
-text-align:center;
+padding:20px;
+margin:40px;
+border-radius:8px;
 }
 
-.loginBox input{
-width:100%;
-padding:8px;
-margin:5px 0;
+.admin input{
+padding:6px;
+margin:5px;
 }
 
 /* WHATSAPP */
@@ -221,14 +223,15 @@ margin-top:40px;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <header>
 
-<div class="logo">Kallys</div>
+<div class="logo">
+<img src="logo-kallys.png">
+</div>
 
 <nav>
 
@@ -239,13 +242,11 @@ margin-top:40px;
 <a href="#">Produtos ▾</a>
 
 <div class="dropdown-menu">
-
 <a href="#">Masculino</a>
 <a href="#">Feminino</a>
 <a href="#">Infantil</a>
 <a href="#">Geek</a>
 <a href="#">LGBT+</a>
-
 </div>
 
 </div>
@@ -253,8 +254,6 @@ margin-top:40px;
 <input class="search" placeholder="Buscar..." onkeyup="searchProduct(this.value)">
 
 <button onclick="toggleCart()">🛒 <span id="cart-count">0</span></button>
-
-<button onclick="openLogin()">Login</button>
 
 </nav>
 
@@ -289,27 +288,17 @@ margin-top:40px;
 
 </div>
 
-<!-- LOGIN -->
+<section class="admin">
 
-<div class="loginModal" id="loginModal">
+<h3>Painel Admin</h3>
 
-<div class="loginBox">
+<input id="pname" placeholder="Produto">
+<input id="pprice" placeholder="Preço">
+<input id="pimg" placeholder="Imagem URL">
 
-<h3>Login</h3>
+<button onclick="addProduct()">Adicionar Produto</button>
 
-<input id="email" placeholder="Email">
-
-<input id="password" type="password" placeholder="Senha">
-
-<button onclick="login()">Entrar</button>
-
-<br><br>
-
-<button onclick="closeLogin()">Fechar</button>
-
-</div>
-
-</div>
+</section>
 
 <a class="whatsapp" href="https://wa.me/555191345783">💬</a>
 
@@ -321,12 +310,8 @@ margin-top:40px;
 
 <script>
 
-let products=[
-
-{name:"Camiseta Street",price:79,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"},
-{name:"Moletom Urban",price:149,img:"https://images.unsplash.com/photo-1503342217505-b0a15ec3261c"},
-{name:"Calça Jeans",price:129,img:"https://images.unsplash.com/photo-1541099649105-f69ad21f3246"}
-
+let products=JSON.parse(localStorage.getItem("products"))||[
+{name:"Camiseta Street",price:79,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"}
 ]
 
 let cart=JSON.parse(localStorage.getItem("cart"))||[]
@@ -351,6 +336,13 @@ container.innerHTML+=`
 
 <div class="price">R$${p.price}</div>
 
+<select class="size-select">
+<option>P</option>
+<option>M</option>
+<option>G</option>
+<option>GG</option>
+</select>
+
 <div class="rating">★★★★★</div>
 
 <br>
@@ -370,6 +362,22 @@ container.innerHTML+=`
 }
 
 loadProducts()
+
+function addProduct(){
+
+let name=document.getElementById("pname").value
+let price=document.getElementById("pprice").value
+let img=document.getElementById("pimg").value
+
+products.push({name,price,img})
+
+localStorage.setItem("products",JSON.stringify(products))
+
+loadProducts()
+
+}
+
+/* CARRINHO */
 
 function toggleCart(){
 
@@ -401,7 +409,7 @@ cart.forEach((item,i)=>{
 
 items.innerHTML+=`<div class="cart-item">${item.name} - R$${item.price} <button onclick="removeItem(${i})">X</button></div>`
 
-total+=item.price
+total+=Number(item.price)
 
 })
 
@@ -422,6 +430,8 @@ localStorage.setItem("cart",JSON.stringify(cart))
 renderCart()
 
 }
+
+/* WHATSAPP */
 
 function buyWhats(product){
 
@@ -447,6 +457,8 @@ window.open(`https://wa.me/${phone}?text=${msg}`)
 
 }
 
+/* BUSCA */
+
 function searchProduct(text){
 
 text=text.toLowerCase()
@@ -460,41 +472,6 @@ let name=card.dataset.name
 card.style.display=name.includes(text)?"block":"none"
 
 })
-
-}
-
-/* LOGIN */
-
-function openLogin(){
-
-document.getElementById("loginModal").style.display="flex"
-
-}
-
-function closeLogin(){
-
-document.getElementById("loginModal").style.display="none"
-
-}
-
-function login(){
-
-let email=document.getElementById("email").value
-let pass=document.getElementById("password").value
-
-if(email==="admcalaigian53" && pass==="admcalai59"){
-
-alert("Login administrador realizado")
-
-}
-
-else{
-
-alert("Login cliente realizado")
-
-}
-
-closeLogin()
 
 }
 
