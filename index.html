@@ -20,7 +20,7 @@ background:#f4f4f4;
 
 header{
 background:#000;
-color:white;
+color:#fff;
 display:flex;
 justify-content:space-between;
 align-items:center;
@@ -43,28 +43,35 @@ text-decoration:none;
 font-size:14px;
 }
 
+/* MENU CATEGORIA */
+
+.dropdown{
+position:relative;
+}
+
+.dropdown-menu{
+display:none;
+position:absolute;
+background:#000;
+top:25px;
+border-radius:6px;
+}
+
+.dropdown-menu a{
+display:block;
+padding:10px;
+}
+
+.dropdown:hover .dropdown-menu{
+display:block;
+}
+
+/* SEARCH */
+
 .search{
 padding:6px;
 border-radius:5px;
 border:none;
-}
-
-/* LOGIN */
-
-.login{
-background:white;
-padding:20px;
-width:300px;
-margin:40px auto;
-border-radius:8px;
-box-shadow:0 5px 15px rgba(0,0,0,.2);
-text-align:center;
-}
-
-.login input{
-width:100%;
-padding:8px;
-margin:5px 0;
 }
 
 /* HERO */
@@ -80,10 +87,6 @@ align-items:center;
 justify-content:center;
 color:white;
 text-shadow:0 4px 10px rgba(0,0,0,.6);
-}
-
-.hero h2{
-font-size:34px;
 }
 
 /* PRODUTOS */
@@ -103,11 +106,6 @@ background:white;
 border-radius:10px;
 overflow:hidden;
 box-shadow:0 8px 18px rgba(0,0,0,.08);
-transition:.25s;
-}
-
-.card:hover{
-transform:translateY(-6px);
 }
 
 .card img{
@@ -125,12 +123,19 @@ font-weight:600;
 margin:10px 0;
 }
 
-/* TAMANHO */
-
 .size-select{
 width:100%;
 padding:5px;
-margin-top:5px;
+}
+
+/* CORES */
+
+.color{
+width:16px;
+height:16px;
+border-radius:50%;
+display:inline-block;
+margin-right:5px;
 }
 
 /* BOTÕES */
@@ -150,7 +155,6 @@ color:white;
 .buy{
 background:#25D366;
 color:white;
-margin-left:5px;
 }
 
 /* RATING */
@@ -180,6 +184,20 @@ border-bottom:1px solid #eee;
 padding:8px 0;
 }
 
+/* ADMIN */
+
+.admin{
+background:white;
+padding:20px;
+margin:40px;
+border-radius:8px;
+}
+
+.admin input{
+padding:6px;
+margin:5px;
+}
+
 /* WHATSAPP */
 
 .whatsapp{
@@ -188,7 +206,7 @@ right:20px;
 bottom:20px;
 background:#25D366;
 color:white;
-padding:16px 20px;
+padding:16px;
 border-radius:50%;
 font-size:24px;
 text-decoration:none;
@@ -218,9 +236,22 @@ margin-top:40px;
 <nav>
 
 <a href="#">Início</a>
-<a href="#produtos">Produtos</a>
 
-<input type="text" class="search" placeholder="Buscar..." onkeyup="searchProduct(this.value)">
+<div class="dropdown">
+
+<a href="#">Produtos ▾</a>
+
+<div class="dropdown-menu">
+<a href="#">Masculino</a>
+<a href="#">Feminino</a>
+<a href="#">Infantil</a>
+<a href="#">Geek</a>
+<a href="#">LGBT+</a>
+</div>
+
+</div>
+
+<input class="search" placeholder="Buscar..." onkeyup="searchProduct(this.value)">
 
 <button onclick="toggleCart()">🛒 <span id="cart-count">0</span></button>
 
@@ -229,15 +260,15 @@ margin-top:40px;
 </header>
 
 <div class="hero">
+
 <h2>Kallys Streetwear</h2>
-<p>Nova coleção 2026</p>
+<p>Nova coleção</p>
+
 </div>
 
 <section class="section">
 
-<div class="products" id="product-list">
-
-</div>
+<div class="products" id="product-list"></div>
 
 </section>
 
@@ -257,6 +288,18 @@ margin-top:40px;
 
 </div>
 
+<section class="admin">
+
+<h3>Painel Admin</h3>
+
+<input id="pname" placeholder="Produto">
+<input id="pprice" placeholder="Preço">
+<input id="pimg" placeholder="Imagem URL">
+
+<button onclick="addProduct()">Adicionar Produto</button>
+
+</section>
+
 <a class="whatsapp" href="https://wa.me/555191345783">💬</a>
 
 <footer>
@@ -267,13 +310,8 @@ margin-top:40px;
 
 <script>
 
-/* PRODUTOS AUTOMÁTICOS */
-
-let products=[
-{name:"Camiseta Street",price:79,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"},
-{name:"Moletom Urban",price:149,img:"https://images.unsplash.com/photo-1503342217505-b0a15ec3261c"},
-{name:"Jaqueta Street",price:199,img:"https://images.unsplash.com/photo-1542060748-10c28b62716f"},
-{name:"Calça Jeans",price:129,img:"https://images.unsplash.com/photo-1541099649105-f69ad21f3246"}
+let products=JSON.parse(localStorage.getItem("products"))||[
+{name:"Camiseta Street",price:79,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"}
 ]
 
 let cart=JSON.parse(localStorage.getItem("cart"))||[]
@@ -281,6 +319,8 @@ let cart=JSON.parse(localStorage.getItem("cart"))||[]
 function loadProducts(){
 
 let container=document.getElementById("product-list")
+
+container.innerHTML=""
 
 products.forEach(p=>{
 
@@ -323,6 +363,20 @@ container.innerHTML+=`
 
 loadProducts()
 
+function addProduct(){
+
+let name=document.getElementById("pname").value
+let price=document.getElementById("pprice").value
+let img=document.getElementById("pimg").value
+
+products.push({name,price,img})
+
+localStorage.setItem("products",JSON.stringify(products))
+
+loadProducts()
+
+}
+
 /* CARRINHO */
 
 function toggleCart(){
@@ -355,7 +409,7 @@ cart.forEach((item,i)=>{
 
 items.innerHTML+=`<div class="cart-item">${item.name} - R$${item.price} <button onclick="removeItem(${i})">X</button></div>`
 
-total+=item.price
+total+=Number(item.price)
 
 })
 
