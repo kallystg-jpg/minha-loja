@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Kallys Store</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
 
 <style>
 
@@ -20,73 +25,57 @@ background:#f4f4f4;
 
 header{
 background:#000;
-color:#fff;
+color:white;
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:18px 30px;
 }
 
-.logo img{
-height:40px;
+.logo{
+font-size:22px;
+font-weight:600;
 }
 
 nav{
 display:flex;
-align-items:center;
 gap:15px;
+align-items:center;
 }
 
-nav a{
-color:white;
-text-decoration:none;
-font-size:14px;
-}
-
-/* MENU CATEGORIA */
-
-.dropdown{
-position:relative;
-}
-
-.dropdown-menu{
-display:none;
-position:absolute;
-background:#000;
-top:25px;
-border-radius:6px;
-}
-
-.dropdown-menu a{
-display:block;
-padding:10px;
-}
-
-.dropdown:hover .dropdown-menu{
-display:block;
-}
-
-/* SEARCH */
-
-.search{
-padding:6px;
-border-radius:5px;
+nav button{
+padding:6px 12px;
 border:none;
+border-radius:6px;
+cursor:pointer;
 }
 
-/* HERO */
+/* LOGIN MODAL */
 
-.hero{
-background:url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1400');
-background-size:cover;
-background-position:center;
-height:300px;
-display:flex;
-flex-direction:column;
+.loginModal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.6);
 align-items:center;
 justify-content:center;
-color:white;
-text-shadow:0 4px 10px rgba(0,0,0,.6);
+}
+
+.loginBox{
+background:white;
+padding:30px;
+border-radius:10px;
+width:300px;
+text-align:center;
+}
+
+.loginBox input{
+width:100%;
+padding:8px;
+margin:5px 0;
 }
 
 /* PRODUTOS */
@@ -105,7 +94,7 @@ gap:25px;
 background:white;
 border-radius:10px;
 overflow:hidden;
-box-shadow:0 8px 18px rgba(0,0,0,.08);
+box-shadow:0 5px 15px rgba(0,0,0,.1);
 }
 
 .card img{
@@ -118,108 +107,14 @@ object-fit:cover;
 padding:15px;
 }
 
-.price{
-font-weight:600;
-margin:10px 0;
-}
-
-.size-select{
-width:100%;
-padding:5px;
-}
-
-/* CORES */
-
-.color{
-width:16px;
-height:16px;
-border-radius:50%;
-display:inline-block;
-margin-right:5px;
-}
-
-/* BOTÕES */
-
-button{
-border:none;
-padding:10px 14px;
-border-radius:6px;
-cursor:pointer;
-}
-
-.cart{
-background:black;
-color:white;
-}
-
-.buy{
-background:#25D366;
-color:white;
-}
-
-/* RATING */
-
-.rating{
-color:gold;
-}
-
-/* CARRINHO */
-
-.cart-panel{
-position:fixed;
-right:20px;
-bottom:20px;
-width:320px;
-background:white;
-border-radius:10px;
-box-shadow:0 10px 30px rgba(0,0,0,.25);
-padding:20px;
-display:none;
-max-height:400px;
-overflow:auto;
-}
-
-.cart-item{
-border-bottom:1px solid #eee;
-padding:8px 0;
-}
-
 /* ADMIN */
 
 .admin{
+display:none;
 background:white;
-padding:20px;
+padding:30px;
 margin:40px;
-border-radius:8px;
-}
-
-.admin input{
-padding:6px;
-margin:5px;
-}
-
-/* WHATSAPP */
-
-.whatsapp{
-position:fixed;
-right:20px;
-bottom:20px;
-background:#25D366;
-color:white;
-padding:16px;
-border-radius:50%;
-font-size:24px;
-text-decoration:none;
-}
-
-/* FOOTER */
-
-footer{
-background:#111;
-color:white;
-text-align:center;
-padding:40px;
-margin-top:40px;
+border-radius:10px;
 }
 
 </style>
@@ -229,42 +124,19 @@ margin-top:40px;
 
 <header>
 
-<div class="logo">
-<img src="logo-kallys.png">
-</div>
+<div class="logo">Kallys</div>
 
 <nav>
 
-<a href="#">Início</a>
+<button onclick="toggleCart()">🛒 Carrinho</button>
 
-<div class="dropdown">
+<button onclick="openLogin()">Login</button>
 
-<a href="#">Produtos ▾</a>
-
-<div class="dropdown-menu">
-<a href="#">Masculino</a>
-<a href="#">Feminino</a>
-<a href="#">Infantil</a>
-<a href="#">Geek</a>
-<a href="#">LGBT+</a>
-</div>
-
-</div>
-
-<input class="search" placeholder="Buscar..." onkeyup="searchProduct(this.value)">
-
-<button onclick="toggleCart()">🛒 <span id="cart-count">0</span></button>
+<button onclick="logout()">Sair</button>
 
 </nav>
 
 </header>
-
-<div class="hero">
-
-<h2>Kallys Streetwear</h2>
-<p>Nova coleção</p>
-
-</div>
 
 <section class="section">
 
@@ -272,49 +144,151 @@ margin-top:40px;
 
 </section>
 
-<div class="cart-panel" id="cart-panel">
+<!-- LOGIN -->
 
-<h3>Carrinho</h3>
+<div class="loginModal" id="loginModal">
 
-<div id="cart-items"></div>
+<div class="loginBox">
 
-<p id="cart-total">Total: R$0</p>
+<h3>Login</h3>
 
-<input placeholder="CEP para frete">
+<input id="email" placeholder="Email">
+
+<input id="password" type="password" placeholder="Senha">
+
+<button onclick="loginEmail()">Entrar</button>
 
 <br><br>
 
-<button onclick="buyAll()" class="buy">Comprar no WhatsApp</button>
+<button onclick="loginGoogle()">Login com Google</button>
+
+<br><br>
+
+<button onclick="register()">Criar Conta</button>
+
+<br><br>
+
+<button onclick="closeLogin()">Fechar</button>
 
 </div>
 
-<section class="admin">
+</div>
+
+<!-- ADMIN PANEL -->
+
+<div class="admin" id="adminPanel">
 
 <h3>Painel Admin</h3>
 
-<input id="pname" placeholder="Produto">
+<input id="pname" placeholder="Nome produto">
+
 <input id="pprice" placeholder="Preço">
-<input id="pimg" placeholder="Imagem URL">
 
-<button onclick="addProduct()">Adicionar Produto</button>
+<input id="pimg" placeholder="URL imagem">
 
-</section>
+<br><br>
 
-<a class="whatsapp" href="https://wa.me/555191345783">💬</a>
+<button onclick="addProduct()">Adicionar</button>
 
-<footer>
-
-<p>© 2026 Kallys Store</p>
-
-</footer>
+</div>
 
 <script>
 
-let products=JSON.parse(localStorage.getItem("products"))||[
-{name:"Camiseta Street",price:79,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"}
-]
+/* FIREBASE CONFIG */
 
-let cart=JSON.parse(localStorage.getItem("cart"))||[]
+const firebaseConfig = {
+
+apiKey: "SUA_API_KEY",
+authDomain: "SEU_DOMINIO",
+projectId: "SEU_ID",
+
+};
+
+firebase.initializeApp(firebaseConfig)
+
+const auth = firebase.auth()
+
+/* LOGIN MODAL */
+
+function openLogin(){
+document.getElementById("loginModal").style.display="flex"
+}
+
+function closeLogin(){
+document.getElementById("loginModal").style.display="none"
+}
+
+/* LOGIN EMAIL */
+
+function loginEmail(){
+
+let email=document.getElementById("email").value
+let pass=document.getElementById("password").value
+
+auth.signInWithEmailAndPassword(email,pass)
+
+}
+
+/* REGISTRO */
+
+function register(){
+
+let email=document.getElementById("email").value
+let pass=document.getElementById("password").value
+
+auth.createUserWithEmailAndPassword(email,pass)
+
+.then(user=>{
+
+user.user.sendEmailVerification()
+
+alert("Verifique seu email")
+
+})
+
+}
+
+/* GOOGLE LOGIN */
+
+function loginGoogle(){
+
+const provider=new firebase.auth.GoogleAuthProvider()
+
+auth.signInWithPopup(provider)
+
+}
+
+/* LOGOUT */
+
+function logout(){
+
+auth.signOut()
+
+}
+
+/* ADMIN LOGIN */
+
+auth.onAuthStateChanged(user=>{
+
+if(!user) return
+
+let email=user.email
+
+if(email==="admcalaigian53"){
+
+document.getElementById("adminPanel").style.display="block"
+
+}
+
+})
+
+/* PRODUTOS */
+
+let products=[
+
+{name:"Camiseta Street",price:79,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"}
+
+]
 
 function loadProducts(){
 
@@ -322,11 +296,11 @@ let container=document.getElementById("product-list")
 
 container.innerHTML=""
 
-products.forEach(p=>{
+products.forEach((p,i)=>{
 
 container.innerHTML+=`
 
-<div class="card" data-name="${p.name.toLowerCase()}">
+<div class="card">
 
 <img src="${p.img}">
 
@@ -334,22 +308,11 @@ container.innerHTML+=`
 
 <h3>${p.name}</h3>
 
-<div class="price">R$${p.price}</div>
+<p>R$${p.price}</p>
 
-<select class="size-select">
-<option>P</option>
-<option>M</option>
-<option>G</option>
-<option>GG</option>
-</select>
+<button onclick="editProduct(${i})">Editar</button>
 
-<div class="rating">★★★★★</div>
-
-<br>
-
-<button class="cart" onclick="addToCart('${p.name}',${p.price})">Carrinho</button>
-
-<button class="buy" onclick="buyWhats('${p.name}')">WhatsApp</button>
+<button onclick="deleteProduct(${i})">Deletar</button>
 
 </div>
 
@@ -371,107 +334,27 @@ let img=document.getElementById("pimg").value
 
 products.push({name,price,img})
 
-localStorage.setItem("products",JSON.stringify(products))
+loadProducts()
+
+}
+
+function deleteProduct(i){
+
+products.splice(i,1)
 
 loadProducts()
 
 }
 
-/* CARRINHO */
+function editProduct(i){
 
-function toggleCart(){
+let name=prompt("Novo nome")
+let price=prompt("Novo preço")
 
-let panel=document.getElementById("cart-panel")
+products[i].name=name
+products[i].price=price
 
-panel.style.display=panel.style.display==="block"?"none":"block"
-
-}
-
-function addToCart(name,price){
-
-cart.push({name,price})
-
-localStorage.setItem("cart",JSON.stringify(cart))
-
-renderCart()
-
-}
-
-function renderCart(){
-
-let items=document.getElementById("cart-items")
-
-items.innerHTML=""
-
-let total=0
-
-cart.forEach((item,i)=>{
-
-items.innerHTML+=`<div class="cart-item">${item.name} - R$${item.price} <button onclick="removeItem(${i})">X</button></div>`
-
-total+=Number(item.price)
-
-})
-
-document.getElementById("cart-total").innerText="Total: R$"+total
-
-document.getElementById("cart-count").innerText=cart.length
-
-}
-
-renderCart()
-
-function removeItem(i){
-
-cart.splice(i,1)
-
-localStorage.setItem("cart",JSON.stringify(cart))
-
-renderCart()
-
-}
-
-/* WHATSAPP */
-
-function buyWhats(product){
-
-const phone='555191345783'
-
-window.open(`https://wa.me/${phone}?text=Olá quero comprar ${product}`)
-
-}
-
-function buyAll(){
-
-const phone='555191345783'
-
-let msg="Olá quero comprar:%0A"
-
-cart.forEach(p=>{
-
-msg+=`- ${p.name} R$${p.price}%0A`
-
-})
-
-window.open(`https://wa.me/${phone}?text=${msg}`)
-
-}
-
-/* BUSCA */
-
-function searchProduct(text){
-
-text=text.toLowerCase()
-
-let cards=document.querySelectorAll(".card")
-
-cards.forEach(card=>{
-
-let name=card.dataset.name
-
-card.style.display=name.includes(text)?"block":"none"
-
-})
+loadProducts()
 
 }
 
