@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -303,6 +304,13 @@ panel.style.display='block'
 
 }
 
+function removeItem(index){
+
+cart.splice(index,1)
+renderCart()
+
+}
+
 function renderCart(){
 
 const items=document.getElementById('cart-items')
@@ -310,9 +318,9 @@ items.innerHTML=''
 
 let total=0
 
-cart.forEach(item=>{
+cart.forEach((item,index)=>{
 
-items.innerHTML+=`<div class="cart-item">${item.name} - R$${item.price}</div>`
+items.innerHTML+=`<div class="cart-item">${item.name} - R$${item.price} <button onclick="removeItem(${index})" style="margin-left:10px;background:#e74c3c;color:white;padding:4px 8px;border-radius:4px">Remover</button></div>`
 
 total+=item.price
 
